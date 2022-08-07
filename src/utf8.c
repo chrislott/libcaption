@@ -144,7 +144,7 @@ size_t _utf8_newline(const utf8_char_t* data)
 }
 // returns the length in bytes of the line including the new line charcter(s)
 // auto detects between windows(CRLF), unix(LF), mac(CR) and riscos (LFCR) line endings
-size_t utf8_line_length(const utf8_char_t* data)
+/*size_t utf8_line_length(const utf8_char_t* data)
 {
     size_t n, len = 0;
 
@@ -154,6 +154,21 @@ size_t utf8_line_length(const utf8_char_t* data)
         }
 
         len += utf8_char_length(&data[len]) - 1;
+    }
+
+    return len;
+}*/
+
+size_t utf8_line_length(const utf8_char_t* data)
+{
+    size_t n, len = 0;
+
+    while (0 != data[len]) {
+        if (0 < (n = _utf8_newline(data + len))) {
+            return len + n;
+        }
+
+        len += utf8_char_length(data + len);
     }
 
     return len;
